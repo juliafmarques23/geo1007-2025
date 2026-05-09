@@ -47,9 +47,9 @@ var map = L.map("map-canvas", {
 
 // 2. aerial photo * not working at this moment (see Assignment)
 //    - can be switched on/off by toggle thru L.control.layers (see below in this script)
-var wms_aerial_url = "https://geodata1.nationaalgeoregister.nl/luchtfoto/wms?";
+var wms_aerial_url = "https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0?";
 var basemap_aerial = new L.tileLayer.wms(wms_aerial_url, {
-  layers: ["luchtfoto_png"],
+  layers: ["Actueel_ortho25"],
   styles: "",
   format: "image/png",
   transparent: true,
@@ -71,8 +71,39 @@ var sound = new L.tileLayer.wms(wms_sound_url, {
   pointerCursor: true,
 });
 
+var wms_my_url = "http://localhost:8080/geoserver/wms?";
+var parcels = new L.tileLayer.wms(wms_my_url, {
+  layers: ["julia:parcels"],
+  styles: "julia:parcels",
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+var top10nl = new L.tileLayer.wms(wms_my_url, {
+  layers: ["julia:GEBOUW_VLAK", "julia:WATERDEEL_VLAK", "julia:WEGDEEL_VLAK"],
+  styles: ["julia:gebouw_vlak", "julia:waterdeel_vlak", "julia:geo1007_roads"],
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+var wms_pdok_url = "https://service.pdok.nl/brt/top10nl/wms/v1_0?";
+var railway = new L.tileLayer.wms(wms_pdok_url, {
+  layers: ["spoorbaandeel"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution:
+    '© <a href="https://www.pdok.nl/datasets">Kadaster</a>',
+  pointerCursor: true,
+});
+
 var overlays = {
   "Road noise [WMS]": sound,
+  "Parcels [WMS]": parcels,
+  "Top10NL [WMS]": top10nl,
+  "Railway [WMS]": railway
 };
 
 var baseLayers = {
